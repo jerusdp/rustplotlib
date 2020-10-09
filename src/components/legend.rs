@@ -30,6 +30,7 @@ pub struct LegendEntry {
     color: String,
     stroke_type: String,
     label: String,
+    font_size: String,
 }
 
 impl LegendEntry {
@@ -42,8 +43,15 @@ impl LegendEntry {
             color,
             stroke_type,
             label,
+            font_size: "12px".to_owned(),
         }
     }
+
+    /// Set the font size in pixels
+    pub fn set_font_size(&mut self, size: usize) {
+        self.font_size = format!("\"{}px\"",size);
+    }
+
 
     /// Return legend entry width to compute the placement of legend entries on the chart.
     pub fn get_width(&self) -> usize {
@@ -113,7 +121,7 @@ impl LegendEntry {
                 .set("dy", ".35em")
                 .set("font-family", "sans-serif")
                 .set("fill", "#777")
-                .set("font-size", "12px")
+                .set("font-size", self.font_size.clone())
                 .add(TextNode::new(self.label.clone()))
         );
 
