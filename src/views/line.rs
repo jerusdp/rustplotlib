@@ -22,6 +22,7 @@ pub struct LineSeriesView<'a, T: Display, U: Display> {
     x_scale: Option<&'a dyn Scale<T>>,
     y_scale: Option<&'a dyn Scale<U>>,
     custom_data_label: String,
+    legend_font_size: Option<usize>,
 }
 
 impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
@@ -38,6 +39,7 @@ impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
             x_scale: None,
             y_scale: None,
             custom_data_label: String::new(),
+            legend_font_size: None,
         }
     }
 
@@ -89,6 +91,12 @@ impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
     /// differentiate data), otherwise, this will have no effect.
     pub fn set_custom_data_label(mut self, label: String) -> Self {
         self.custom_data_label = label;
+        self
+    }
+
+    /// Set a value for the legend font size
+    pub fn set_legend_font_size(mut self, size: usize) -> Self {
+        self.legend_font_size = Some(size);
         self
     }
 
@@ -181,10 +189,10 @@ impl<'a, T: Display, U: Display> View<'a> for LineSeriesView<'a, T, U> {
         // the dataset consists only of X and Y dimension values), return
         // the custom data label.
         if self.keys.len() == 1 && self.keys[0].len() == 0 {
-            entries.push(LegendEntry::new(LegendMarkerType::Line, self.color_map.get(&self.keys[0]).unwrap().clone(), String::from("none"), self.custom_data_label.clone()));
+            entries.push(LegendEntry::new(LegendMarkerType::Line, self.color_map.get(&self.keys[0]).unwrap().clone(), String::from("none"), self.custom_data_label.clone(), self.legend_font_size));
         } else {
             for key in self.keys.iter() {
-                entries.push(LegendEntry::new(LegendMarkerType::Line, self.color_map.get(key).unwrap().clone(), String::from("none"), key.clone()));
+                entries.push(LegendEntry::new(LegendMarkerType::Line, self.color_map.get(key).unwrap().clone(), String::from("none"), key.clone(), self.legend_font_size));
             }
         }
 

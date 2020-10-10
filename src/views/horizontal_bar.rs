@@ -22,6 +22,7 @@ pub struct HorizontalBarView<'a> {
     x_scale: Option<&'a dyn Scale<f32>>,
     y_scale: Option<&'a dyn Scale<String>>,
     custom_data_label: String,
+    legend_font_size: Option<usize>,
 }
 
 impl<'a> HorizontalBarView<'a> {
@@ -38,6 +39,7 @@ impl<'a> HorizontalBarView<'a> {
             x_scale: None,
             y_scale: None,
             custom_data_label: String::new(),
+            legend_font_size: None,
         }
     }
 
@@ -89,6 +91,12 @@ impl<'a> HorizontalBarView<'a> {
     /// Set the precision to which value labels should be rounded.
     pub fn set_label_rounding_precision(mut self, nr_of_digits: usize) -> Self {
         self.rounding_precision = Some(nr_of_digits);
+        self
+    }
+
+    /// Set a value for the legend font size
+    pub fn set_legend_font_size(mut self, size: usize) -> Self {
+        self.legend_font_size = Some(size);
         self
     }
 
@@ -208,10 +216,10 @@ impl<'a> View<'a> for HorizontalBarView<'a> {
         // the dataset consists only of X and Y dimension values), return
         // the custom data label.
         if self.keys.len() == 1 && self.keys[0].len() == 0 {
-            entries.push(LegendEntry::new(LegendMarkerType::Square, self.color_map.get(&self.keys[0]).unwrap().clone(), String::from("none"), self.custom_data_label.clone()));
+            entries.push(LegendEntry::new(LegendMarkerType::Square, self.color_map.get(&self.keys[0]).unwrap().clone(), String::from("none"), self.custom_data_label.clone(), self.legend_font_size));
         } else {
             for key in self.keys.iter() {
-                entries.push(LegendEntry::new(LegendMarkerType::Square, self.color_map.get(key).unwrap().clone(), String::from("none"), key.clone()));
+                entries.push(LegendEntry::new(LegendMarkerType::Square, self.color_map.get(key).unwrap().clone(), String::from("none"), key.clone(), self.legend_font_size));
             }
         }
 

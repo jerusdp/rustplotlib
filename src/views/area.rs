@@ -20,6 +20,7 @@ pub struct AreaSeriesView<'a, T: Display + Clone, U: Display + Clone> {
     x_scale: Option<&'a dyn Scale<T>>,
     y_scale: Option<&'a dyn Scale<U>>,
     custom_data_label: String,
+    legend_font_size: Option<usize>,
 }
 
 impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
@@ -34,6 +35,7 @@ impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
             x_scale: None,
             y_scale: None,
             custom_data_label: String::new(),
+            legend_font_size: None,
         }
     }
 
@@ -79,6 +81,12 @@ impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
     /// differentiate data), otherwise, this will have no effect.
     pub fn set_custom_data_label(mut self, label: String) -> Self {
         self.custom_data_label = label;
+        self
+    }
+
+    /// Set a value for the legend font size
+    pub fn set_legend_font_size(mut self, size: usize) -> Self {
+        self.legend_font_size = Some(size);
         self
     }
 
@@ -153,7 +161,7 @@ impl<'a, T: Display + Clone, U: Display + Clone> View<'a> for AreaSeriesView<'a,
         // Area series currently does not support multiple keys per dataset,
         // hence when displaying a legend, it will display the custom data label
         // as the legend label.
-        entries.push(LegendEntry::new(LegendMarkerType::Square, self.colors[0].as_hex(), String::from("none"), self.custom_data_label.clone()));
+        entries.push(LegendEntry::new(LegendMarkerType::Square, self.colors[0].as_hex(), String::from("none"), self.custom_data_label.clone(), self.legend_font_size));
 
         entries
     }

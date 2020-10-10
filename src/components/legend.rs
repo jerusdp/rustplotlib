@@ -35,8 +35,8 @@ pub struct LegendEntry {
 
 impl LegendEntry {
     /// Create a new legend entry.
-    pub fn new(marker_type: LegendMarkerType, color: String, stroke_type: String, label: String) -> Self {
-        Self {
+    pub fn new(marker_type: LegendMarkerType, color: String, stroke_type: String, label: String, new_font_size: Option<usize>) -> Self {
+        let mut new_legend_entry = Self {
             marker_type,
             marker_size: 7,
             marker_to_label_gap: 6,
@@ -44,7 +44,13 @@ impl LegendEntry {
             stroke_type,
             label,
             font_size: "12px".to_owned(),
+        };
+
+        if let Some(size) = new_font_size {
+            new_legend_entry.set_font_size(size);
         }
+
+        new_legend_entry
     }
 
     /// Set the font size in pixels
