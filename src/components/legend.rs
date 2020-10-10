@@ -55,7 +55,7 @@ impl LegendEntry {
 
     /// Set the font size in pixels
     pub fn set_font_size(&mut self, size: usize) {
-        self.font_size = format!("\"{}px\"",size);
+        self.font_size = format!("{}px",size);
     }
 
 
