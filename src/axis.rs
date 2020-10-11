@@ -71,7 +71,7 @@ impl Axis {
 
     /// Set font size for axis label.
     pub fn set_axis_label_font_size(&mut self, size: usize) {
-        self.label_font_size = format!("{}", size);
+        self.label_font_size = format!("{}px", size);
     }
 
     /// Set tick label rotation.

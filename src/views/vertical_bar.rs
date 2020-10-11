@@ -14,6 +14,7 @@ use crate::components::legend::{LegendEntry, LegendMarkerType};
 pub struct VerticalBarView<'a> {
     label_position: BarLabelPosition,
     labels_visible: bool,
+    label_font_size: Option<usize>,
     rounding_precision: Option<usize>,
     entries: Vec<Bar>,
     keys: Vec<String>,
@@ -31,6 +32,7 @@ impl<'a> VerticalBarView<'a> {
         Self {
             label_position: BarLabelPosition::EndOutside,
             labels_visible: true,
+            label_font_size: None,
             rounding_precision: None,
             entries: Vec::new(),
             keys: Vec::new(),
@@ -100,6 +102,12 @@ impl<'a> VerticalBarView<'a> {
         self
     }
 
+    /// Set a custom size for the bar labels
+    pub fn set_label_font_size(mut self, size: usize) -> Self {
+        self.label_font_size = Some(size);
+        self
+    }
+
     /// Load and process a dataset of BarDatum points.
     pub fn load_data(mut self, data: &Vec<impl BarDatum>) -> Result<Self, String> {
         match self.x_scale {
@@ -164,7 +172,15 @@ impl<'a> VerticalBarView<'a> {
                 bar_blocks.push(BarBlock::new(stacked_start, stacked_end, *value, self.color_map.get(*key).unwrap().clone()));
             }
 
-            let bar = Bar::new(bar_blocks, Orientation::Vertical, category.to_string(), self.label_position, self.labels_visible, self.rounding_precision, self.x_scale.unwrap().bandwidth().unwrap(), self.x_scale.unwrap().scale(category));
+            let bar = Bar::new(bar_blocks, 
+                Orientation::Vertical, 
+                category.to_string(), 
+                self.label_position, 
+                self.labels_visible, 
+                self.label_font_size, 
+                self.rounding_precision, 
+                self.x_scale.unwrap().bandwidth().unwrap(), 
+                self.x_scale.unwrap().scale(category));
             bars.push(bar);
         }
 
