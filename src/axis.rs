@@ -25,6 +25,7 @@ pub struct Axis {
     label: String,
     label_rotation: isize,
     label_format: String,
+    label_font_size: String, 
     length: isize,
 }
 
@@ -39,6 +40,7 @@ impl Axis {
             label_rotation: 0,
             label_format: String::new(),
             length: Self::get_axis_length(position, chart),
+            label_font_size: "14px".to_owned(),
         }
     }
 
@@ -65,6 +67,11 @@ impl Axis {
     /// Set axis label.
     pub fn set_axis_label(&mut self, label: String) {
         self.label = label;
+    }
+
+    /// Set font size for axis label.
+    pub fn set_axis_label_font_size(&mut self, size: usize) {
+        self.label_font_size = format!("{}", size);
     }
 
     /// Set tick label rotation.
@@ -122,7 +129,7 @@ impl Axis {
                 .set("x", x)
                 .set("y", y)
                 .set("text-anchor", "middle")
-                .set("font-size", "14px")
+                .set("font-size", self.label_font_size.clone())
                 .set("font-family", "sans-serif")
                 .set("fill", "#777")
                 .set("transform", format!("rotate({})", rotate))

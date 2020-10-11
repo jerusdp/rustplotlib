@@ -154,6 +154,46 @@ impl<'a> Chart<'a> {
         self
     }
 
+    /// Specify the font size for the label for the right of the chart.
+    pub fn set_right_axis_label_font_size(mut self, size: usize) -> Self {
+        if let Some(ref mut axis) = self.y_axis_right {
+            axis.set_axis_label_font_size(size)
+        } else {
+            panic!("You cannot set the font size for the right axis without adding an axis first.")
+        }
+        self
+    }
+
+    /// Specify the font size for the label for the left of the chart.
+    pub fn set_left_axis_label_font_size(mut self, size: usize) -> Self {
+        if let Some(ref mut axis) = self.y_axis_left {
+            axis.set_axis_label_font_size(size)
+        } else {
+            panic!("You cannot set the font size for the left axis without adding an axis first.")
+        }
+        self
+    }
+
+    /// Specify the font size for the label for the top of the chart.
+    pub fn set_top_axis_label_font_size(mut self, size: usize) -> Self {
+        if let Some(ref mut axis) = self.x_axis_top {
+            axis.set_axis_label_font_size(size)
+        } else {
+            panic!("You cannot set the font size for the top axis without adding an axis first.")
+        }
+        self
+    }
+
+    /// Specify the font size for the label for the bottom of the chart.
+    pub fn set_bottom_axis_label_font_size(mut self, size: usize) -> Self {
+        if let Some(ref mut axis) = self.x_axis_bottom {
+            axis.set_axis_label_font_size(size)
+        } else {
+            panic!("You cannot set the font size for the bottom axis without adding an axis first.")
+        }
+        self
+    }
+
     /// Return the offset from the left where the view starts.
     pub fn get_view_horizontal_start_offset(&self) -> isize {
         self.margin_left
