@@ -20,6 +20,7 @@ pub enum AxisPosition {
 /// An axis struct that represents an axis along a dimension of the chart.
 pub struct Axis {
     ticks: Vec<AxisTick>,
+    tick_label_font_size: Option<usize>,
     axis_line: AxisLine,
     position: AxisPosition,
     label: String,
@@ -34,6 +35,7 @@ impl Axis {
     fn new<'a, T: ToString>(scale: &'a dyn Scale<T>, position: AxisPosition, chart: &Chart<'a>) -> Self {
         Self {
             ticks: Self::generate_ticks(scale, position),
+            tick_label_font_size: None,
             position,
             axis_line: Self::get_axis_line(position, chart),
             label: String::new(),
@@ -78,6 +80,12 @@ impl Axis {
     pub fn set_tick_label_rotation(&mut self, rotation: isize) {
         self.label_rotation = rotation;
         self.ticks.iter_mut().for_each(|tick| tick.set_label_rotation(rotation));
+    }
+
+    /// Set tick label font size.
+    pub fn set_tick_label_font_size(&mut self, size: usize) {
+        self.tick_label_font_size = Some(size);
+        self.ticks.iter_mut().for_each(|tick| tick.set_label_font_size(size));
     }
 
     /// Set the label format.
@@ -162,7 +170,12 @@ impl Axis {
                 AxisPosition::Right if scale.get_type() == ScaleType::Band => scale.scale(&tick) + scale.bandwidth().unwrap() / 2_f32,
                 AxisPosition::Right => scale.scale(&tick),
             };
-            let axis_tick = AxisTick::new(tick_offset, label_offset, 0, tick.to_string(), position);
+            let axis_tick = AxisTick::new(tick_offset,
+                                label_offset,
+                                0,
+                                tick.to_string(), 
+                                None,
+                                position);
             ticks.push(axis_tick);
         }
 
