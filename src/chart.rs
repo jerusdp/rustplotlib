@@ -35,6 +35,7 @@ pub struct Chart<'a> {
     legend_position: Option<AxisPosition>,
     views: Vec<&'a dyn View<'a>>,
     title: String,
+    title_font_size: String,
 }
 
 impl<'a> Chart<'a> {
@@ -54,6 +55,7 @@ impl<'a> Chart<'a> {
             legend_position: None,
             views: Vec::new(),
             title: String::new(),
+            title_font_size: "24px".to_owned(),
         }
     }
 
@@ -72,6 +74,12 @@ impl<'a> Chart<'a> {
     /// Add chart title.
     pub fn add_title(mut self, title: String) -> Self {
         self.title = title;
+        self
+    }
+
+    /// Specify the font size for the chart title.
+    pub fn set_title_font_size(mut self, size: usize) -> Self {
+        self.title_font_size = format!("{}px", size);
         self
     }
 
@@ -364,7 +372,7 @@ impl<'a> Chart<'a> {
                     .set("dy", ".35em")
                     .set("fill", "#777")
                     .set("text-anchor", "middle")
-                    .set("font-size", "24px")
+                    .set("font-size", self.title_font_size.clone())
                     .set("font-family", "sans-serif")
                     .add(TextNode::new(&self.title))
                 );
