@@ -263,7 +263,7 @@ impl Axis {
     }
 
     /// Calculate analogue for the length of the tick labels.
-    fn calculate_max_tick_length<'a, T: ToString>(scale: &'a dyn Scale<T>) -> TickLabel {
+    fn calculate_max_tick_length<T: ToString>(scale: &dyn Scale<T>) -> TickLabel {
         match scale.get_type() {
             ScaleType::Band => {
                 match scale
