@@ -216,10 +216,7 @@ impl Axis {
     }
 
     /// Generate ticks for the axis based on the scale and position.
-    fn generate_ticks<'a, T: ToString>(
-        scale: &'a dyn Scale<T>,
-        position: AxisPosition,
-    ) -> Vec<AxisTick> {
+    fn generate_ticks<T: ToString>(scale: &dyn Scale<T>, position: AxisPosition) -> Vec<AxisTick> {
         let mut ticks = Vec::new();
         let label_offset = {
             if position == AxisPosition::Top || position == AxisPosition::Bottom {
