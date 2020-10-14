@@ -116,7 +116,7 @@ impl Axis {
 
     /// Return whether the axis has a label or not.
     pub fn has_label(&self) -> bool {
-        self.label.len() > 0
+        !self.label.is_empty()
     }
 
     /// Compute the length of the axis.
