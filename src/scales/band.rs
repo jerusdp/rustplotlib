@@ -1,6 +1,6 @@
+use crate::scales::{Scale, ScaleType};
 use std::collections::HashMap;
 use std::collections::HashSet;
-use crate::scales::{Scale, ScaleType};
 
 /// The scale to represent categorical data.
 #[derive(Debug)]
@@ -157,6 +157,11 @@ impl Scale<String> for ScaleBand {
     /// Get the type of the scale.
     fn get_type(&self) -> ScaleType {
         ScaleType::Band
+    }
+
+    /// Get the domain of the scale.
+    fn get_domain(&self) -> Vec<String> {
+        self.domain().clone()
     }
 
     /// Get the range value for the given domain entry.

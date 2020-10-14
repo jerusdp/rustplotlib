@@ -1,5 +1,5 @@
-use std::cmp::{max, Ordering};
 use crate::scales::{Scale, ScaleType};
+use std::cmp::{max, Ordering};
 
 /// The scale to represent categorical data.
 #[derive(Debug)]
@@ -91,6 +91,10 @@ impl Scale<f32> for ScaleLinear {
     /// Get the type of the scale.
     fn get_type(&self) -> ScaleType {
         ScaleType::Linear
+    }
+
+    fn get_domain(&self) -> Vec<f32> {
+        self.domain().clone()
     }
 
     /// Get the range value for the given domain entry.

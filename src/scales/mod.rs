@@ -13,6 +13,9 @@ pub trait Scale<T> {
     /// Get the type of the scale.
     fn get_type(&self) -> ScaleType;
 
+    /// Get the domain of the scale.
+    fn get_domain(&self) -> Vec<T>;
+
     /// Get the range value for the given domain entry.
     fn scale(&self, domain: &T) -> f32;
 
