@@ -183,7 +183,7 @@ impl Axis {
             group.append(tick.to_svg().unwrap());
         }
 
-        if self.label.len() > 0 {
+        if !self.label.is_empty() {
             let (x, y, rotate) = match self.position {
                 AxisPosition::Top => (
                     (self.length / 2) as i32,
