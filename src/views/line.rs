@@ -101,7 +101,7 @@ impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
     }
 
     /// Load and process a dataset of BarDatum points.
-    pub fn load_data(mut self, data: &Vec<impl PointDatum<T, U>>) -> Result<Self, String> {
+    pub fn load_data(mut self, data: &[impl PointDatum<T, U>]) -> Result<Self, String> {
         match self.x_scale {
             Some(_) => {}
             _ => {
