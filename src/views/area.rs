@@ -23,9 +23,8 @@ pub struct AreaSeriesView<'a, T: Display + Clone, U: Display + Clone> {
     legend_font_size: Option<usize>,
 }
 
-impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
-    /// Create a new empty instance of the view.
-    pub fn new() -> Self {
+impl<'a, T: Display + Clone, U: Display + Clone> Default for AreaSeriesView<'a, T, U> {
+    fn default() -> Self {
         Self {
             labels_visible: true,
             label_position: PointLabelPosition::NW,
@@ -37,6 +36,13 @@ impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
             custom_data_label: String::new(),
             legend_font_size: None,
         }
+    }
+}
+
+impl<'a, T: Display + Clone, U: Display + Clone> AreaSeriesView<'a, T, U> {
+    /// Create a new empty instance of the view.
+    pub fn new() -> Self {
+        AreaSeriesView::default()
     }
 
     /// Set the scale for the X dimension.
