@@ -26,7 +26,7 @@ pub struct ScatterView<'a, T: Display, U: Display> {
 }
 
 impl<'a, T: Display, U: Display> Default for ScatterView<'a, T, U> {
-    pub fn default() -> Self {
+    fn default() -> Self {
         Self {
             labels_visible: true,
             label_position: PointLabelPosition::NW,
