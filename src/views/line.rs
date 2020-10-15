@@ -178,7 +178,7 @@ impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
     }
 
     /// Extract the list of keys to use when stacking and coloring the bars.
-    fn extract_keys(data: &Vec<impl PointDatum<T, U>>) -> Vec<String> {
+    fn extract_keys(data: &[impl PointDatum<T, U>]) -> Vec<String> {
         let mut keys = Vec::new();
         let mut map = HashMap::new();
 
