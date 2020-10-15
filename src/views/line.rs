@@ -25,9 +25,9 @@ pub struct LineSeriesView<'a, T: Display, U: Display> {
     legend_font_size: Option<usize>,
 }
 
-impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
+impl<'a, T: Display, U: Display> Default for LineSeriesView<'a, T, U> {
     /// Create a new empty instance of the view.
-    pub fn new() -> Self {
+    fn default() -> Self {
         Self {
             labels_visible: true,
             label_position: PointLabelPosition::NW,
@@ -41,6 +41,13 @@ impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
             custom_data_label: String::new(),
             legend_font_size: None,
         }
+    }
+}
+
+impl<'a, T: Display, U: Display> LineSeriesView<'a, T, U> {
+    /// Create a new empty instance of the view.
+    pub fn new() -> Self {
+        LineSeriesView::default()
     }
 
     /// Set the scale for the X dimension.
