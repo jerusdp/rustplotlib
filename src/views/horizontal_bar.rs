@@ -26,9 +26,8 @@ pub struct HorizontalBarView<'a> {
     legend_font_size: Option<usize>,
 }
 
-impl<'a> HorizontalBarView<'a> {
-    /// Create a new empty instance of the view.
-    pub fn new() -> Self {
+impl<'a> Default for HorizontalBarView<'a> {
+    fn default() -> Self {
         Self {
             label_position: BarLabelPosition::EndOutside,
             labels_visible: true,
@@ -43,6 +42,13 @@ impl<'a> HorizontalBarView<'a> {
             custom_data_label: String::new(),
             legend_font_size: None,
         }
+    }
+}
+
+impl<'a> HorizontalBarView<'a> {
+    /// Create a new empty instance of the view.
+    pub fn new() -> Self {
+        HorizontalBarView::default()
     }
 
     /// Set the scale for the X dimension.
