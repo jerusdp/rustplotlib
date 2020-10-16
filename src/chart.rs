@@ -6,7 +6,6 @@ use crate::{Axis, Scale};
 use std::ffi::OsStr;
 use std::path::Path;
 use std::string::ToString;
-use svg;
 use svg::node::element::Group;
 use svg::node::element::Text;
 use svg::node::Text as TextNode;
