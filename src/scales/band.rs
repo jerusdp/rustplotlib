@@ -31,9 +31,8 @@ pub struct ScaleBand {
     r1: f32,
 }
 
-impl ScaleBand {
-    /// Create a new band scale with default values.
-    pub fn new() -> Self {
+impl Default for ScaleBand {
+    fn default() -> Self {
         Self {
             domain: Vec::new(),
             range: vec![0, 1],
@@ -47,6 +46,13 @@ impl ScaleBand {
             r0: 0f32,
             r1: 0f32,
         }
+    }
+}
+
+impl ScaleBand {
+    /// Create a new band scale with default values.
+    pub fn new() -> Self {
+        ScaleBand::default()
     }
 
     /// Set the inner padding ratio.
