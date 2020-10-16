@@ -200,7 +200,7 @@ impl<'a> VerticalBarView<'a> {
     }
 
     /// Extract the list of keys to use when stacking and coloring the bars.
-    fn extract_keys(data: &Vec<impl BarDatum>) -> Vec<String> {
+    fn extract_keys(data: &[impl BarDatum]) -> Vec<String> {
         let mut keys = Vec::new();
         let mut map = HashMap::new();
 
