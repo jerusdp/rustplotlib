@@ -12,14 +12,20 @@ pub struct ScaleLinear {
     tick_count: usize,
 }
 
-impl ScaleLinear {
-    /// Create a new linear scale with default values.
-    pub fn new() -> Self {
+impl Default for ScaleLinear {
+    fn default() -> Self {
         Self {
             domain: Vec::new(),
             range: vec![0, 1],
             tick_count: 10,
         }
+    }
+}
+
+impl ScaleLinear {
+    /// Create a new linear scale with default values.
+    pub fn new() -> Self {
+        ScaleLinear::default()
     }
 
     /// Set the domain limits for the scale band.
