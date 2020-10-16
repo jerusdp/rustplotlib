@@ -38,9 +38,8 @@ pub struct Chart<'a> {
     title_font_size: String,
 }
 
-impl<'a> Chart<'a> {
-    /// Create a new instance of a chart with default sizes.
-    pub fn new() -> Self {
+impl<'a> Default for Chart<'a> {
+    fn default() -> Self {
         Self {
             margin_top: 90,
             margin_bottom: 50,
@@ -57,6 +56,13 @@ impl<'a> Chart<'a> {
             title: String::new(),
             title_font_size: "24px".to_owned(),
         }
+    }
+}
+
+impl<'a> Chart<'a> {
+    /// Create a new instance of a chart with default sizes.
+    pub fn new() -> Self {
+        Chart::default()
     }
 
     /// Set chart width.
