@@ -26,9 +26,8 @@ pub struct VerticalBarView<'a> {
     legend_font_size: Option<usize>,
 }
 
-impl<'a> VerticalBarView<'a> {
-    /// Create a new empty instance of the view.
-    pub fn new() -> Self {
+impl<'a> Default for VerticalBarView<'a> {
+    fn default() -> Self {
         Self {
             label_position: BarLabelPosition::EndOutside,
             labels_visible: true,
@@ -43,6 +42,13 @@ impl<'a> VerticalBarView<'a> {
             custom_data_label: String::new(),
             legend_font_size: None,
         }
+    }
+}
+
+impl<'a> VerticalBarView<'a> {
+    /// Create a new empty instance of the view.
+    pub fn new() -> Self {
+        VerticalBarView::default()
     }
 
     /// Set the scale for the X dimension.
