@@ -361,7 +361,7 @@ impl<'a> Chart<'a> {
         let mut group = Group::new().set("class", "g-chart");
 
         // Add chart title
-        if self.title.len() > 0 {
+        if !self.title.is_empty() {
             let title_group = Group::new()
                 .set("class", "g-title")
                 .set("transform", format!("translate({},{})", self.width / 2, 25))
