@@ -441,7 +441,7 @@ impl<'a> Chart<'a> {
             match legend_position {
                 AxisPosition::Top => {
                     let axis_height = {
-                        if self.title.len() > 0 {
+                        if !self.title.is_empty() {
                             45
                         } else {
                             10
