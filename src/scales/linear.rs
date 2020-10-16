@@ -47,7 +47,7 @@ impl ScaleLinear {
     /// Takes a value x in [a, b] and returns the corresponding value in [0, 1].
     fn normalize(&self, a: f32, b: f32, x: f32) -> f32 {
         // If a == b then return 0.5
-        if a == b {
+        if (a - b).abs() < f32::EPSILON {
             0.5
         } else {
             let b = b - a;
