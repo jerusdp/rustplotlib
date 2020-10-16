@@ -109,7 +109,7 @@ impl<'a> VerticalBarView<'a> {
     }
 
     /// Load and process a dataset of BarDatum points.
-    pub fn load_data(mut self, data: &Vec<impl BarDatum>) -> Result<Self, String> {
+    pub fn load_data(mut self, data: &[impl BarDatum]) -> Result<Self, String> {
         match self.x_scale {
             Some(scale) if scale.get_type() == ScaleType::Band => {}
             _ => return Err("The X axis scale should be a Band scale.".to_string()),
