@@ -104,9 +104,8 @@ impl Scale<f32> for ScaleLinear {
         let normalized = self.normalize(a, b, *domain);
         let a = self.range[0] as f32;
         let b = self.range[1] as f32;
-        let scaled = self.interpolate(a, b, normalized);
 
-        scaled
+        self.interpolate(a, b, normalized)
     }
 
     /// Get the bandwidth (if present).
