@@ -128,7 +128,7 @@ impl Scale<f32> for ScaleLinear {
     fn get_ticks(&self) -> Vec<f32> {
         let mut ticks = Vec::new();
 
-        if self.domain[0] == self.domain[1] && self.tick_count > 0 {
+        if (self.domain[0] - self.domain[1]).abs() < f32::EPSILON && self.tick_count > 0 {
             ticks.push(self.domain[0] as f32);
             return ticks;
         }
