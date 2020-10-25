@@ -101,6 +101,11 @@ impl Scale<f32> for ScaleLinear {
         self.domain().clone()
     }
 
+    /// Get the domain max of the scale.
+    fn domain_max(&self) -> f32 {
+        self.domain[1]
+    }
+
     /// Get the range value for the given domain entry.
     fn scale(&self, domain: &f32) -> f32 {
         let a = self.domain[0];

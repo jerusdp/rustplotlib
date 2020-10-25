@@ -170,6 +170,10 @@ impl Scale<String> for ScaleBand {
         self.domain().clone()
     }
 
+    fn domain_max(&self) -> f32 {
+        0_f32
+    }
+
     /// Get the range value for the given domain entry.
     fn scale(&self, domain: &String) -> f32 {
         self.offsets[*self.index.get(domain).unwrap()]
