@@ -116,7 +116,7 @@ impl Axis {
 
     /// Return whether the axis has a label or not.
     pub fn has_label(&self) -> bool {
-        self.label.len() > 0
+        !self.label.is_empty()
     }
 
     /// Compute the length of the axis.
@@ -128,6 +128,31 @@ impl Axis {
         }
     }
 
+    /// Calculate analogue for the length of the tick labels.
+    fn calculate_max_tick_length<T: ToString>(scale: &dyn Scale<T>) -> TickLabel {
+        match scale.get_type() {
+            ScaleType::Band => {
+                match scale
+                    .get_domain()
+                    .into_iter()
+                    .map(|s| s.to_string().len())
+                    .max()
+                {
+                    Some(size) => TickLabel::Band(size),
+                    None => TickLabel::Band(0),
+                }
+            }
+            ScaleType::Linear => TickLabel::Linear(scale.domain_max()),
+
+            ScaleType::Ordinal => {
+                todo!();
+                // When ordinal scale type is implemented
+                #[allow(unreachable_code)]
+                TickLabel::Ordinal(0)
+            }
+        }
+    }
+
     /// Calculate the y position for the label
     fn calculate_y_for_label(&self) -> i32 {
         match self.max_tick_length {
@@ -135,8 +160,8 @@ impl Axis {
                 let calculated;
 
                 match self.tick_label_font_size {
-                    Some(font_size) => calculated = characters_to_px(characters, font_size),
-                    None => calculated = characters_to_px(characters, 12),
+                    Some(font_size) => calculated = Axis::characters_to_px(characters, font_size),
+                    None => calculated = Axis::characters_to_px(characters, 12),
                 };
 
                 match self.position {
@@ -148,11 +173,11 @@ impl Axis {
             }
             TickLabel::Linear(upper_bound) => {
                 let calculated;
-                let characters = format_num::format_num!(&self.label_format, upper_bound).len();
+                let characters = format_num::format_num!(&self.label_format, upper_bound).len() + 2;
 
                 match self.tick_label_font_size {
-                    Some(font_size) => calculated = characters_to_px(characters, font_size),
-                    None => calculated = characters_to_px(characters, 12),
+                    Some(font_size) => calculated = Axis::characters_to_px(characters, font_size),
+                    None => calculated = Axis::characters_to_px(characters, 12),
                 };
 
                 match self.position {
@@ -164,6 +189,11 @@ impl Axis {
             }
             TickLabel::Ordinal(_size) => 42,
         }
+    }
+
+    fn characters_to_px(characters: usize, font_size: usize) -> i32 {
+        // tick space + characters * fontsize * proportion
+        (12_f32 + (characters as f32 * font_size as f32 * 0.7)) as i32
     }
 
     /// Generate svg for the axis.
@@ -183,7 +213,7 @@ impl Axis {
             group.append(tick.to_svg().unwrap());
         }
 
-        if self.label.len() > 0 {
+        if !self.label.is_empty() {
             let (x, y, rotate) = match self.position {
                 AxisPosition::Top => (
                     (self.length / 2) as i32,
@@ -216,10 +246,7 @@ impl Axis {
     }
 
     /// Generate ticks for the axis based on the scale and position.
-    fn generate_ticks<'a, T: ToString>(
-        scale: &'a dyn Scale<T>,
-        position: AxisPosition,
-    ) -> Vec<AxisTick> {
+    fn generate_ticks<T: ToString>(scale: &dyn Scale<T>, position: AxisPosition) -> Vec<AxisTick> {
         let mut ticks = Vec::new();
         let label_offset = {
             if position == AxisPosition::Top || position == AxisPosition::Bottom {
@@ -262,30 +289,6 @@ impl Axis {
         ticks
     }
 
-    /// Calculate analogue for the length of the tick labels.
-    fn calculate_max_tick_length<'a, T: ToString>(scale: &'a dyn Scale<T>) -> TickLabel {
-        match scale.get_type() {
-            ScaleType::Band => {
-                match scale
-                    .get_domain()
-                    .into_iter()
-                    .map(|s| s.to_string().len())
-                    .max()
-                {
-                    Some(size) => TickLabel::Band(size),
-                    None => TickLabel::Band(0),
-                }
-            }
-            ScaleType::Linear => TickLabel::Linear(scale.get_domain()[1].to_string().len() as f32),
-            ScaleType::Ordinal => {
-                todo!();
-                // When ordinal scale type is implemented
-                #[allow(unreachable_code)]
-                TickLabel::Ordinal(0)
-            }
-        }
-    }
-
     /// Generate the line that represents the axis.
     fn get_axis_line<'a>(position: AxisPosition, chart: &Chart<'a>) -> AxisLine {
         match position {
@@ -303,11 +306,6 @@ impl Axis {
     }
 }
 
-fn characters_to_px(characters: usize, font_size: usize) -> i32 {
-    // tick space + characters * fontsize * proportion
-    (12_f32 + (characters as f32 * font_size as f32 * 0.7)) as i32
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -317,7 +315,7 @@ mod tests {
         let string = format_num::format_num!(".3%", 0.7);
         let characters = string.len();
         let font_size = 14;
-        let px = characters_to_px(characters, font_size);
+        let px = Axis::characters_to_px(characters, font_size);
 
         println!(
             "With the string {} we have characters {} and font size {} we get px {}",
